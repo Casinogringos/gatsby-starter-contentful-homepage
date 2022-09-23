@@ -59,7 +59,7 @@ const BlogIndex = props => {
 
   const posts = props.data.allContentfulBlogPost.nodes;
 
-  console.log("POSTS", posts)
+  console.log("POSTS", posts) 
 
   return (
     <Layout title="Blog">
