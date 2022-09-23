@@ -3,6 +3,7 @@ import Header from "./header"
 import Footer from "./footer"
 import Head from "./head"
 import "../styles.css"
+import "../main.scss"
 
 const Layout = (props) => {
   return (

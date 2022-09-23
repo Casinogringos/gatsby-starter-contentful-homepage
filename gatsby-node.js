@@ -1,7 +1,84 @@
+const path = require('path')
+
 const { documentToHtmlString } = require("@contentful/rich-text-html-renderer")
 const { getGatsbyImageResolver } = require("gatsby-plugin-image/graphql-utils")
 
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const response = await graphql(`
+    query {
+      allContentfulPage {
+        edges {
+          node {
+            pageSlug
+            id
+          }
+        }
+      }
+    }
+  `)
+
+  /* QUERY PAGE */
+  response.data.allContentfulPage.edges.forEach(edge => {
+    createPage({
+      path: edge.node.pageSlug,
+      component: path.resolve("./src/templates/page.js"),
+      context: {
+        id: edge.node.id,
+      },
+    })
+  })
+
+  const blogPost = await graphql(`
+    query {
+      allContentfulBlogPost {
+        edges {
+          node {
+            slug
+            id
+          }
+        }
+      }
+    }
+  `)
+
+   /* QUERY BLOG POST */
+  blogPost.data.allContentfulBlogPost.edges.forEach(edge => {
+    createPage({
+      path: `/blog/${edge.node.slug}`,
+      component: path.resolve("./src/templates/blog-post.js"),
+      context: {
+        id: edge.node.id,
+      },
+    })
+  })
+
+  /* QUERY BLOG POST ARCHIVE */
+  const blogPostArchive = await graphql(`
+  query {
+    allContentfulBlogPost {
+      edges {
+        node {
+          slug
+          id
+        }
+      }
+    }
+  }
+`)
+  blogPostArchive.data.allContentfulBlogPost.edges.forEach(edge => {
+    createPage({
+      path: `/blog/`,
+      component: path.resolve("./src/templates/blog-index.js"),
+    })
+  })
+
+}
+
+
 exports.createSchemaCustomization = async ({ actions }) => {
+
   actions.createFieldExtension({
     name: "blocktype",
     extend(options) {
@@ -144,6 +221,21 @@ exports.createSchemaCustomization = async ({ actions }) => {
       heading: String
       text: String
       content: [HomepageFeature]
+    }
+
+    interface HomepageBrand implements Node & HomepageBlock {
+      id: ID!
+      blocktype: String
+      title: String
+      description: String
+      image: HomepageImage
+    }
+
+    interface HomepageBrandList implements Node & HomepageBlock {
+      id: ID!
+      blocktype: String
+      title: String
+      content: [HomepageBrand]
     }
 
     interface HomepageCta implements Node & HomepageBlock {
@@ -408,6 +500,21 @@ exports.createSchemaCustomization = async ({ actions }) => {
       content: [HomepageFeature] @link(from: "content___NODE")
     }
 
+    type ContentfulHomepageBrand implements Node & HomepageBlock & HomepageBrand
+      @dontInfer {
+      blocktype: String @blocktype
+      title: String
+      image: HomepageImage @link(from: "image___NODE")
+      description: String
+    }
+
+    type ContentfulHomepageBrandList implements Node & HomepageBlock & HomepageBrandList
+    @dontInfer {
+    blocktype: String @blocktype
+    title: String
+    content: [HomepageBrand] @link(from: "content___NODE")
+  }
+
     type ContentfulHomepageCta implements Node & HomepageBlock & HomepageCta
       @dontInfer {
       blocktype: String @blocktype
@@ -510,6 +617,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       content: [HomepageBlock] @link(from: "content___NODE")
     }
   `)
+  
 
   // CMS specific types for About page
   actions.createTypes(/* GraphQL */ `

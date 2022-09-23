@@ -6,7 +6,7 @@ import {
   ButtonList,
   Container,
   Flex,
-  Heading,
+  SuperHeading,
   Kicker,
   Section,
   Subhead,
@@ -19,21 +19,21 @@ export default function Hero(props) {
       <Container>
         <Flex gap={4} variant="responsive">
           <Box width="half">
+            <SuperHeading as="h1">
+              {props.kicker && <Kicker>{props.kicker}</Kicker>}
+              {props.h1}
+            </SuperHeading>
+            <Subhead as="h2">{props.subhead}</Subhead>
+            <Text as="p">{props.text}</Text>
+            <ButtonList links={props.links} />
+          </Box>
+          <Box width="half">
             {props.image && (
               <GatsbyImage
                 alt={props.image.alt}
                 image={getImage(props.image.gatsbyImageData)}
               />
             )}
-          </Box>
-          <Box width="half">
-            <Heading as="h1">
-              {props.kicker && <Kicker>{props.kicker}</Kicker>}
-              {props.h1}
-            </Heading>
-            <Subhead as="h2">{props.subhead}</Subhead>
-            <Text as="p">{props.text}</Text>
-            <ButtonList links={props.links} />
           </Box>
         </Flex>
       </Container>

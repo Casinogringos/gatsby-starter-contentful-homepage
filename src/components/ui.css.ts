@@ -2,7 +2,7 @@ import { style, styleVariants } from "@vanilla-extract/css"
 import { calc } from "@vanilla-extract/css-utils"
 import { theme } from "../theme.css"
 
-const breakpoints = ["40em", "52em", "64em"]
+const breakpoints = ["600px", "40em", "52em", "64em"]
 
 export const media = {
   small: `screen and (min-width: ${breakpoints[0]})`,
@@ -16,6 +16,15 @@ export const container = style({
   marginRight: "auto",
   paddingLeft: theme.space[4],
   paddingRight: theme.space[4],
+
+  "@media": {
+    [media.small]: {
+      paddingLeft: theme.space[2],
+      paddingRight: theme.space[2],
+      paddingTop: theme.space[2],
+      paddingBottom: theme.space[2],
+    },
+  },
 })
 
 export type Containers = "normal" | "wide" | "narrow" | "tight" | "fullbleed"
@@ -198,8 +207,8 @@ export const section = style({
   paddingBottom: theme.space[4],
   "@media": {
     [media.small]: {
-      paddingTop: theme.space[5],
-      paddingBottom: theme.space[5],
+      paddingTop: theme.space[3],
+      paddingBottom: theme.space[3],
     },
   },
 })
@@ -250,6 +259,7 @@ export type TextVariants =
   | "body"
   | "lead"
   | "superHeading"
+  | "mainHeading"
   | "heading"
   | "subhead"
   | "subheadSmall"
@@ -288,7 +298,7 @@ export const text: Record<TextVariants, string> = styleVariants({
     margin0,
     {
       marginTop: theme.space[4],
-      marginBottom: theme.space[6],
+      marginBottom: theme.space[3],
       fontSize: theme.fontSizes[5],
       fontFamily: theme.fonts.heading,
       fontWeight: theme.fontWeights.extrabold,
@@ -296,7 +306,24 @@ export const text: Record<TextVariants, string> = styleVariants({
       letterSpacing: theme.letterSpacings.tight,
       "@media": {
         [media.small]: {
-          fontSize: theme.fontSizes[7],
+          fontSize: theme.fontSizes[6],
+        },
+      },
+    },
+  ],
+  mainHeading: [
+    margin0,
+    {
+      marginTop: theme.space[4],
+      marginBottom: theme.space[3],
+      fontSize: theme.fontSizes[3],
+      fontFamily: theme.fonts.heading,
+      fontWeight: theme.fontWeights.extrabold,
+      lineHeight: theme.lineHeights.heading,
+      letterSpacing: theme.letterSpacings.tight,
+      "@media": {
+        [media.small]: {
+          fontSize: theme.fontSizes[5],
         },
       },
     },
@@ -306,13 +333,13 @@ export const text: Record<TextVariants, string> = styleVariants({
     {
       marginBottom: theme.space[3],
       fontFamily: theme.fonts.heading,
-      fontSize: theme.fontSizes[5],
+      fontSize: theme.fontSizes[6],
       fontWeight: theme.fontWeights.extrabold,
       lineHeight: theme.lineHeights.tight,
       letterSpacing: theme.letterSpacings.tight,
       "@media": {
         [media.medium]: {
-          fontSize: theme.fontSizes[6],
+          fontSize: theme.fontSizes[4],
         },
       },
     },
@@ -321,10 +348,21 @@ export const text: Record<TextVariants, string> = styleVariants({
     margin0,
     {
       marginBottom: theme.space[3],
-      fontSize: theme.fontSizes[5],
+      fontSize: theme.fontSizes[3],
       fontWeight: theme.fontWeights.extrabold,
       lineHeight: theme.lineHeights.tight,
       letterSpacing: theme.letterSpacings.tight,
+    },
+  ],
+  brandtitle: [
+    margin0,
+    {
+      marginBottom: theme.space[3],
+      fontSize: theme.fontSizes[3],
+      fontWeight: theme.fontWeights.extrabold,
+      lineHeight: theme.lineHeights.tight,
+      letterSpacing: theme.letterSpacings.tight,
+      color: theme.colors.black,
     },
   ],
   subheadSmall: [
@@ -335,6 +373,8 @@ export const text: Record<TextVariants, string> = styleVariants({
       fontWeight: theme.fontWeights.extrabold,
       lineHeight: theme.lineHeights.tight,
       letterSpacing: theme.letterSpacings.tight,
+      color: theme.colors.yellow,
+
     },
   ],
   kicker: [
@@ -343,6 +383,7 @@ export const text: Record<TextVariants, string> = styleVariants({
       marginBottom: theme.space[2],
       fontFamily: theme.fonts.mono,
       fontSize: theme.fontSizes[1],
+      color: theme.colors.primary,
       fontWeight: theme.fontWeights.medium,
       lineHeight: theme.lineHeights.tight,
       letterSpacing: theme.letterSpacings.wide,
@@ -447,6 +488,20 @@ export const navButtonlink = style({
   },
 })
 
+export const brandContainer = style({
+  color: "inherit",
+  fontSize: "inherit",
+  fontFamily: theme.fonts.text,
+  padding: 20,
+  margin: "0 0 25px",
+  background: "#ffffff",
+  alignItems: "center",
+  gridGap: "25px",
+  display: "flex",
+  borderRadius: "8px",
+  textDecoration: "none",
+})
+
 export const ctaLink = style({
   color: "inherit",
   fontWeight: theme.fontWeights.bold,
@@ -539,12 +594,20 @@ export type Backgrounds = "primary" | "muted"
 
 export const backgrounds: Record<Backgrounds, string> = styleVariants({
   primary: {
-    color: theme.colors.background,
+    color: theme.colors.textWhite,
     backgroundColor: theme.colors.primary,
   },
   muted: {
     color: theme.colors.primary,
     backgroundColor: theme.colors.muted,
+  },
+  yellow: {
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.yellow,
+  },
+  white: {
+    color: theme.colors.text,
+    backgroundColor: theme.colors.textWhite,
   },
 })
 

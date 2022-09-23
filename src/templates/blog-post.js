@@ -1,6 +1,7 @@
 import * as React from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
+import { graphql } from "gatsby"
 import {
   Container,
   Flex,
@@ -13,49 +14,53 @@ import {
 import { avatar as avatarStyle } from "../components/ui.css"
 import * as styles from "./blog-post.css"
 
-export default function BlogPost(props) {
+const Post = props => {
+
+  const post = props.data.contentfulBlogPost;
+  console.log("PAGE", post)
+
   return (
     <Layout {...props} description={props.excerpt}>
-      <Container>
-        <Box paddingY={5}>
+      <Container width="narrow">
+        <Box paddingY={3}>
           <Heading as="h1" center>
-            {props.title}
+            {post.title}
           </Heading>
           <Space size={4} />
-          {props.author && (
+          {post.author && (
             <Box center>
               <Flex>
-                {props.author.avatar &&
-                  (!!props.author.avatar.gatsbyImageData ? (
+                {post.author.avatar &&
+                  (!!post.author.avatar.gatsbyImageData ? (
                     <Avatar
-                      {...props.author.avatar}
-                      image={props.author.avatar.gatsbyImageData}
+                      {...post.author.avatar}
+                      image={post.author.avatar.gatsbyImageData}
                     />
                   ) : (
                     <img
-                      src={props.author.avatar.url}
-                      alt={props.author.name}
+                      src={post.author.avatar.url}
+                      alt={post.author.name}
                       className={avatarStyle}
                     />
                   ))}
-                <Text variant="bold">{props.author.name}</Text>
+                <Text variant="bold">{post.author.name}</Text>
+                <Text variant="bold">{post.publishDate}</Text>
               </Flex>
             </Box>
           )}
           <Space size={4} />
-          <Text center>{props.date}</Text>
+          <Text center>{post.date}</Text>
           <Space size={4} />
-          {props.image && (
+          {post.heroImage && (
             <GatsbyImage
-              alt={props.image.alt}
-              image={props.image.gatsbyImageData}
+              alt={post.heroImage.alt}
+              image={post.heroImage.gatsbyImageData}
             />
           )}
-          <Space size={5} />
           <div
             className={styles.blogPost}
             dangerouslySetInnerHTML={{
-              __html: props.html,
+              __html: post.body.body,
             }}
           />
         </Box>
@@ -63,3 +68,27 @@ export default function BlogPost(props) {
     </Layout>
   )
 }
+
+export default Post
+
+
+export const postQuery = graphql`
+  query($id: String!) {
+    contentfulBlogPost(id: { eq: $id }) {
+      title
+      slug
+      id
+      body {
+        body
+      }
+      publishDate(locale: "sv-SE", formatString: "MMMM DD, YYYY")
+      heroImage {
+        alt
+        gatsbyImageData 
+      }
+      author {
+        name
+      }
+    }
+  }
+`

@@ -18,6 +18,7 @@ import {
   desktopHeaderNavWrapper,
   mobileHeaderNavWrapper,
   mobileNavSVGColorWrapper,
+  headerWrapper
 } from "./header.css"
 import NavItemGroup from "./nav-item-group"
 import BrandLogo from "./brand-logo"
@@ -71,9 +72,8 @@ export default function Header() {
   }, [isOpen])
 
   return (
-    <header>
+    <header className={headerWrapper}>
       <Container className={desktopHeaderNavWrapper}>
-        <Space size={2} />
         <Flex variant="spaceBetween">
           <NavLink to="/">
             <VisuallyHidden>Home</VisuallyHidden>
@@ -100,7 +100,6 @@ export default function Header() {
         </Flex>
       </Container>
       <Container className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}>
-        <Space size={2} />
         <Flex variant="spaceBetween">
           <span
             className={

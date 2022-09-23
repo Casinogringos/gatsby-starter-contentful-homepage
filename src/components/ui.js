@@ -53,6 +53,8 @@ export function Box({
   background,
   padding,
   paddingY,
+  margin,
+  marginY,
   radius,
   center = false,
   order,
@@ -66,6 +68,8 @@ export function Box({
         background && styles.backgrounds[background],
         padding && styles.padding[padding],
         paddingY && styles.paddingY[paddingY],
+        margin && styles.margin[margin],
+        marginY && styles.marginY[marginY],
         radius && styles.radii[radius],
         center && styles.box.center,
         order && styles.order[order],
@@ -128,6 +132,10 @@ export function SuperHeading({ ...props }) {
   return <Text as="h1" variant="superHeading" {...props} />
 }
 
+export function MainHeading({ ...props }) {
+  return <Text as="h1" variant="mainHeading" {...props} />
+}
+
 export function Heading({ ...props }) {
   return <Text as="h2" variant="heading" {...props} />
 }
@@ -138,6 +146,10 @@ export function Subhead({ ...props }) {
 
 export function Kicker({ ...props }) {
   return <Text variant="kicker" {...props} />
+}
+
+export function BrandTitle({ ...props }) {
+  return <Text variant="brandtitle" {...props} />
 }
 
 export function Link({ to, href, ...props }) {
@@ -186,6 +198,10 @@ export function ButtonList({ links = [], reversed = false, ...props }) {
 
 export function CTALink(props) {
   return <Base as={Link} cx={[styles.ctaLink]} {...props} />
+}
+
+export function BrandContainer(props) {
+  return <Base as="li" cx={[styles.brandContainer]} {...props} />
 }
 
 export function LinkList({ links = [], ...props }) {

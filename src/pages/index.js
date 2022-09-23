@@ -7,6 +7,8 @@ import Fallback from "../components/fallback"
 export default function Homepage(props) {
   const { homepage } = props.data
 
+  console.log("HOMEPAGE", homepage)
+
   return (
     <Layout {...homepage}>
       {homepage.blocks.map((block) => {
@@ -19,7 +21,7 @@ export default function Homepage(props) {
 }
 
 export const query = graphql`
-  {
+  { 
     homepage {
       id
       title
@@ -33,6 +35,7 @@ export const query = graphql`
         blocktype
         ...HomepageHeroContent
         ...HomepageFeatureListContent
+        ...HomepageBrandListContent
         ...HomepageCtaContent
         ...HomepageLogoListContent
         ...HomepageTestimonialListContent

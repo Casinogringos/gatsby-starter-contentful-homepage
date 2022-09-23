@@ -1,6 +1,6 @@
 // support for .env, .env.development, and .env.production
-require("dotenv").config()
 require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}.development`,
   path: `.env.${process.env.NODE_ENV}`,
 })
 
@@ -26,6 +26,8 @@ module.exports = {
     "gatsby-transformer-sharp",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-vanilla-extract",
+    "gatsby-plugin-sass",
+    
     {
       resolve: "gatsby-plugin-manifest",
       options: {

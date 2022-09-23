@@ -5,6 +5,8 @@ globalStyle("body", {
   margin: 0,
   fontFamily: theme.fonts.text,
   color: theme.colors.text,
+  fontSize: "17px",
+  lineHeight: "1.45",
   backgroundColor: theme.colors.background,
   WebkitFontSmoothing: "antialiased",
   MozOsxFontSmoothing: "grayscale",
